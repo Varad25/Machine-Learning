@@ -1,0 +1,31 @@
+function err = trainnn (w)
+
+% w has 5*14+5 = 260 weights
+
+% pack weights in the matrices for net
+load bank_NN_Data.mat;
+
+% 7 x 20
+net.IW{1} = reshape ( w(1:(5*51)), 5, 51 );
+net.LW{2} = reshape ( w((5*51+1):(5*51+5)), 1, 5 );
+% net.IW{1,1} = reshape ( w(1:(50*14)), 50, 14 );
+% net.LW{2,1} = reshape ( w((50*14+1):(3200)), 50, 50 );
+% net.LW{3,2} = reshape ( w((3201):(5700)), 50, 50 );
+% net.LW{4,3} = reshape ( w((5701):(8200)), 50, 50 );
+% net.LW{5,4} = reshape ( w((8201):(10700)), 50, 50 );
+% net.LW{6,5} = reshape ( w((10701):(13200)), 50, 50 );
+% net.LW{7,6} = reshape ( w((13201):(14701)), 30, 50 );
+
+% Y_nn_train = net(XtrainNN');
+% Y_nn_train = round(Y_nn_train');
+% Y_nn_train = vec2ind(Y_nn_train');
+% YtrainNN = vec2ind(YtrainNN');
+% C_nn_train = confusionmat(YtrainNN,Y_nn_train);
+% N = sum(C_nn_train(:));
+% err =( ( N-sum(diag(C_nn_train)) ) + 0.5*sum(w.*w) / N )* 100;
+
+
+%calc error
+err = ( sum ( (YtrainNN' - sim (net, XtrainNN')).^2 ) + 0.5 * sum(w.*w) ) / size(XtrainNN,2)*;
+
+end

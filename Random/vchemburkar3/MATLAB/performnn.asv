@@ -1,0 +1,26 @@
+function res = performnn (w)
+
+load bank_NN_Data.mat;
+
+% 7 x 20
+net.IW{1} = reshape ( w(1:(50*14)), 50, 14 );
+net.LW{2} = reshape ( w((50*14+1):(3200)), 50, 50 );
+net.LW{3} = reshape ( w((3201):(5700)), 50, 50 );
+net.LW{4} = reshape ( w((5701):(8200)), 50, 50 );
+net.LW{5} = reshape ( w((8201):(10700)), 50, 50 );
+net.LW{6} = reshape ( w((10701):(13200)), 50, 50 );
+net.LW{7} = reshape ( w((13201):(3200)), 50, 50 );
+
+Y_nn_test = net(XtestNN');
+Y_nn_test = round(Y_nn_test');
+Y_nn_test = vec2ind(Y_nn_test');
+YtestNN = vec2ind(YtestNN');
+C_nn_test = confusionmat(YtestNN,Y_nn_test);
+N = sum(C_nn_test(:));
+res = (( N-sum(diag(C_nn_test)) ) / N )*100;
+
+%calc error
+% simL = sim (net, XtestNN) > 0.5;
+% res = sum(simL == YtestNN ) / length(YtestNN);
+
+end
